@@ -6,28 +6,10 @@ function listarCarritoHTML(producto) {
   <th scope="row">${producto.id}</th>
   <td>${producto.nombre}</td>
   <td>$ ${producto.importe.toLocaleString()}</td>
-  <td><button class="buttonEliminar" id="${producto.id}">❌</button></td>
+  <td><button class="buttonEliminar" id="${
+    producto.id
+  }" onclick="eliminarProducto(${producto.id})">❌</button></td>
 </tr>`;
-}
-
-function eliminarProductoDelCarrito() {
-  const botones = document.querySelectorAll("button.buttonEliminar");
-  botones.forEach((boton) => {
-    boton.addEventListener("click", () => {
-      let producto = arrayProductos.find(
-        (producto) => producto.id === parseInt(boton.id)
-      );
-      let index = carritoProductos.indexOf(producto);
-      if (index !== -1) {
-        carritoProductos.splice(index, 1);
-        localStorage.setItem(
-          "CarritoProductos",
-          JSON.stringify(carritoProductos)
-        );
-        mostrarTotalProductos();
-      }
-    });
-  });
 }
 
 function mostrarMensajeCV() {
@@ -42,6 +24,17 @@ function armarCarrito() {
         (producto) => (tableBody.innerHTML += listarCarritoHTML(producto))
       )
     : (sectionProductos.innerHTML = mostrarMensajeCV());
+}
+
+function eliminarProducto(id) {
+  let productoIndex = carritoProtuctos.findIndex(
+    (producto) => producto.id === id
+  );
+  if (productoIndex !== -1) {
+    carritoProtuctos.splice(productoIndex, 1);
+    localStorage.setItem("CarritoProductos", JSON.stringify(carritoProtuctos));
+    armarCarrito();
+  }
 }
 
 armarCarrito();
